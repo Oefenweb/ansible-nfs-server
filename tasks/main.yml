@@ -1,0 +1,41 @@
+# tasks file for nfs-server
+---
+- name: install dependencies
+  apt:
+    name: "{{ nfs_server_dependencies }}"
+    state: "{{ apt_install_state | default('latest') }}"
+    update_cache: true
+    cache_valid_time: "{{ apt_update_cache_valid_time | default(3600) }}"
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-install
+    - nfs-server-install-dependencies
+
+- name: update configuration file(s)
+  template:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    owner: root
+    group: root
+    mode: 0644
+  with_items:
+    - src: "{{ nfs_server_etc_default_nfs_common_file.lstrip('/') }}.j2"
+      dest: "{{ nfs_server_etc_default_nfs_common_file }}"
+    - src: "{{ nfs_server_etc_default_nfs_kernel_server_file.lstrip('/') }}.j2"
+      dest: "{{ nfs_server_etc_default_nfs_kernel_server_file }}"
+  notify: restart nfs-server
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-configuration
+
+- name: start and enable service
+  service:
+    name: nfs-server
+    state: "{{ nfs_server_service_state }}"
+    enabled: "{{ nfs_server_service_enabled | bool }}"
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-start-enable-service
