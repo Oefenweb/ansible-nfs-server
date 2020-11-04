@@ -24,6 +24,10 @@
       dest: "{{ nfs_server_etc_default_nfs_common_file }}"
     - src: "{{ nfs_server_etc_default_nfs_kernel_server_file.lstrip('/') }}.j2"
       dest: "{{ nfs_server_etc_default_nfs_kernel_server_file }}"
+    - src: "{{ nfs_server_lockd_file.lstrip('/') }}.j2"
+      dest: "{{ nfs_server_lockd_file }}"
+    - src: "{{ nfs_server_exports_file.lstrip('/') }}.j2"
+      dest: "{{ nfs_server_exports_file }}"
   notify: restart nfs-server
   tags:
     - configuration
