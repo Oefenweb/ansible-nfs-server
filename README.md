@@ -1,7 +1,7 @@
 ## nfs-server
 
 [![Build Status](https://travis-ci.org/Oefenweb/ansible-nfs-server.svg?branch=master)](https://travis-ci.org/Oefenweb/ansible-nfs-server)
-[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nfs-server-blue.svg)](https://galaxy.ansible.com/Oefenweb/nfs-server/)
+[![Ansible Galaxy](http://img.shields.io/badge/ansible--galaxy-nfs--server-blue.svg)](https://galaxy.ansible.com/Oefenweb/nfs-server/)
 
 Set up NFS in Debian-like systems (server side)
 
@@ -31,7 +31,11 @@ None
 - hosts: all
   roles:
     - nfs-server
-```
+  vars:
+    nfs_server_exports:
+      - |
+        /home 192.168.1.0/24(rw,sync,no_subtree_check)
+ ``
 
 #### License
 

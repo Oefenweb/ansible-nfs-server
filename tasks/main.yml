@@ -1,5 +1,16 @@
 # tasks file for nfs-server
 ---
+- name: include variables
+  include_vars: "{{ item }}"
+  with_first_found:
+    - "_{{ ansible_distribution_release }}.yml"
+    - "_{{ ansible_distribution | lower }}.yml"
+    - _default.yml
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-include-variables
+
 - name: install dependencies
   apt:
     name: "{{ nfs_server_dependencies }}"
@@ -36,7 +47,7 @@
 
 - name: start and enable service
   service:
-    name: nfs-server
+    name: "{{ nfs_server_service_name }}"
     state: "{{ nfs_server_service_state }}"
     enabled: "{{ nfs_server_service_enabled | bool }}"
   tags:
