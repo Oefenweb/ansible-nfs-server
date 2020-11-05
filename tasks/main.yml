@@ -23,6 +23,33 @@
     - nfs-server-install
     - nfs-server-install-dependencies
 
+- name: stat configuration file(s) directories
+  stat:
+    path: "{{ item }}/"
+  register: _stat_directories
+  with_items:
+    - "{{ nfs_server_etc_default_nfs_common_file | dirname }}"
+    - "{{ nfs_server_etc_default_nfs_kernel_server_file | dirname }}"
+    - "{{ nfs_server_lockd_file | dirname }}"
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-configuration
+
+- name: create configuration file(s) directories
+  file:
+    path: "{{ item.item }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+  with_items: "{{ _stat_directories.results }}"
+  when: not item.stat.exists
+  tags:
+    - configuration
+    - nfs-server
+    - nfs-server-configuration
+
 - name: update configuration file(s)
   template:
     src: "{{ item.src }}"
