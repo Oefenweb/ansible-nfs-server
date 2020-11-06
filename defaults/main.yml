@@ -1,0 +1,61 @@
+# defaults file for nfs-server
+---
+nfs_server_service_state: "{{ service_default_state | default('started') }}"
+nfs_server_service_enabled: "{{ service_default_enabled | default(true) }}"
+
+nfs_server_etc_default_nfs_common:
+  - |
+    # If you do not set values for the NEED_ options, they will be attempted
+    # autodetected; this should be sufficient for most people. Valid alternatives
+    # for the NEED_ options are "yes" and "no".
+
+
+    # Options for rpc.statd.
+    #   Should rpc.statd listen on a specific port? This is especially useful
+    #   when you have a port-based firewall. To use a fixed port, set this
+    #   this variable to a statd argument like: "--port 4000 --outgoing-port 4001".
+    #   For more information, see rpc.statd(8) or http://wiki.debian.org/SecuringNFS
+    STATDOPTS=
+
+    # Do you want to start the gssd daemon? It is required for Kerberos mounts.
+    NEED_GSSD=
+
+nfs_server_etc_default_nfs_kernel_server:
+  - |
+    # Number of servers to start up
+    RPCNFSDCOUNT=8
+
+    # Runtime priority of server (see nice(1))
+    RPCNFSDPRIORITY=0
+
+    # Options for rpc.mountd.
+    # If you have a port-based firewall, you might want to set up
+    # a fixed port here using the --port option. For more information,
+    # see rpc.mountd(8) or http://wiki.debian.org/SecuringNFS
+    # To disable NFSv4 on the server, specify '--no-nfs-version 4' here
+    RPCMOUNTDOPTS="--manage-gids"
+
+    # Do you want to start the svcgssd daemon? It is only required for Kerberos
+    # exports. Valid alternatives are "yes" and "no"; the default is "no".
+    NEED_SVCGSSD=""
+
+    # Options for rpc.svcgssd.
+    RPCSVCGSSDOPTS=""
+
+    # Options for rpc.nfsd.
+    RPCNFSDOPTS=""
+
+nfs_server_lockd: []
+
+nfs_server_exports:
+  - |
+    # /etc/exports: the access control list for filesystems which may be exported
+    #		to NFS clients.  See exports(5).
+    #
+    # Example for NFSv2 and NFSv3:
+    # /srv/homes       hostname1(rw,sync,no_subtree_check) hostname2(ro,sync,no_subtree_check)
+    #
+    # Example for NFSv4:
+    # /srv/nfs4        gss/krb5i(rw,sync,fsid=0,crossmnt,no_subtree_check)
+    # /srv/nfs4/homes  gss/krb5i(rw,sync,no_subtree_check)
+    #

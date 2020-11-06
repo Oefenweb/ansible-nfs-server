@@ -1,0 +1,7 @@
+# test file for nfs-server
+---
+- hosts: localhost
+  connection: local
+  become: true
+  roles:
+    - ../../

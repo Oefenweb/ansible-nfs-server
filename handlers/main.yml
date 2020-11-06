@@ -1,0 +1,7 @@
+# handlers file for nfs-server
+---
+- name: restart nfs-server
+  service:
+    name: "{{ nfs_server_service_name }}"
+    state: restarted
+  when: service_default_state | default('started') == 'started'

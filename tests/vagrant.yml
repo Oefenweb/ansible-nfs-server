@@ -1,0 +1,26 @@
+# test file for nfs-server
+---
+- hosts: all
+  remote_user: vagrant
+  become: true
+  roles:
+    - ../../
+  vars:
+    nfs_server_etc_default_nfs_common:
+      - |
+        STATDOPTS="--port 32765 --outgoing-port 32766"
+        NEED_GSSD=
+
+    nfs_server_etc_default_nfs_kernel_server:
+      - |
+        RPCNFSDCOUNT=8
+        RPCNFSDPRIORITY=0
+        RPCMOUNTDOPTS="--manage-gids --port 32767"
+        NEED_SVCGSSD=""
+        RPCSVCGSSDOPTS=""
+        RPCNFSDOPTS=""
+
+    nfs_server_lockd:
+      - |
+        options lockd nlm_udpport=32768 nlm_tcpport=32768
+        options nfs callback_tcpport=32764
