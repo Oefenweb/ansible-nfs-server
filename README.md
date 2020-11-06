@@ -24,6 +24,10 @@ None
 
 None
 
+## Recommended
+
+* `ansible-nfs-client` ([see](https://github.com/Oefenweb/ansible-nfs-client))
+
 #### Example
 
 ```yaml
