@@ -1,4 +1,4 @@
-# vars file for nfs-server
+# vars file
 ---
 nfs_server_dependencies:
   - nfs-common

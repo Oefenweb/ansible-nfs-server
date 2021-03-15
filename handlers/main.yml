@@ -1,4 +1,4 @@
-# handlers file for nfs-server
+# handlers file
 ---
 - name: restart nfs-server
   service:
