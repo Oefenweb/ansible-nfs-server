@@ -3,6 +3,7 @@
 nfs_server_dependencies:
   - nfs-common
   - nfs-kernel-server
+  - netbase
 
 nfs_server_etc_default_nfs_common_file: /etc/default/nfs-common
 nfs_server_etc_default_nfs_kernel_server_file: /etc/default/nfs-kernel-server
