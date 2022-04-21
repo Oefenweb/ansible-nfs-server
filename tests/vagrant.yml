@@ -3,6 +3,12 @@
 - hosts: all
   remote_user: vagrant
   become: true
+  pre_tasks:
+    - name: fix unable to allocate nfsd_file_hashtbl
+      shell: >
+        sync && echo 3 > /proc/sys/vm/drop_caches
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('20.04', '>=')
+      changed_when: false
   roles:
     - ../../
   vars:
