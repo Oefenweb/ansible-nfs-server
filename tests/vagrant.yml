@@ -7,7 +7,9 @@
     - name: fix unable to allocate nfsd_file_hashtbl
       shell: >
         sync && echo 3 > /proc/sys/vm/drop_caches
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_version is version('20.04', '>=')
+      when:
+        - ansible_distribution == 'Ubuntu'
+        - ansible_distribution_major_version is version('20', '>=')
       changed_when: false
   roles:
     - ../../
