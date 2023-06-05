@@ -5,7 +5,7 @@
   become: true
   pre_tasks:
     - name: fix unable to allocate nfsd_file_hashtbl
-      shell: >
+      ansible.builtin.shell: >
         sync && echo 3 > /proc/sys/vm/drop_caches
       when:
         - ansible_distribution == 'Ubuntu'
