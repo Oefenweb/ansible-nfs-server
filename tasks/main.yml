@@ -1,7 +1,7 @@
 # tasks file
 ---
 - name: include variables
-  include_vars: "{{ item }}"
+  ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
     - "_{{ ansible_distribution_release }}.yml"
     - "_{{ ansible_distribution | lower }}.yml"
@@ -12,7 +12,7 @@
     - nfs-server-include-variables
 
 - name: install dependencies
-  apt:
+  ansible.builtin.apt:
     name: "{{ nfs_server_dependencies }}"
     state: "{{ apt_install_state | default('latest') }}"
     update_cache: true
@@ -24,7 +24,7 @@
     - nfs-server-install-dependencies
 
 - name: stat configuration file(s) directories
-  stat:
+  ansible.builtin.stat:
     path: "{{ item }}/"
   register: _stat_directories
   with_items:
@@ -37,7 +37,7 @@
     - nfs-server-configuration
 
 - name: create configuration file(s) directories
-  file:
+  ansible.builtin.file:
     path: "{{ item.item }}"
     state: directory
     owner: root
@@ -51,7 +51,7 @@
     - nfs-server-configuration
 
 - name: update configuration file(s)
-  template:
+  ansible.builtin.template:
     src: "{{ item.src }}"
     dest: "{{ item.dest }}"
     owner: root
@@ -73,7 +73,7 @@
     - nfs-server-configuration
 
 - name: start and enable service
-  service:
+  ansible.builtin.service:
     name: "{{ nfs_server_service_name }}"
     state: "{{ nfs_server_service_state }}"
     enabled: "{{ nfs_server_service_enabled | bool }}"
