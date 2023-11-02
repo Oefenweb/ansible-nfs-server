@@ -34,7 +34,7 @@ None
 ---
 - hosts: all
   roles:
-    - nfs-server
+    - oefenweb.nfs-server
   vars:
     nfs_server_exports:
       - |
