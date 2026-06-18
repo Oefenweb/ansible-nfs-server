@@ -3,8 +3,8 @@
 - name: include variables
   ansible.builtin.include_vars: "{{ item }}"
   with_first_found:
-    - "_{{ ansible_distribution_release }}.yml"
-    - "_{{ ansible_distribution | lower }}.yml"
+    - "_{{ ansible_facts['distribution_release'] }}.yml"
+    - "_{{ ansible_facts['distribution'] | lower }}.yml"
     - _default.yml
   tags:
     - configuration
@@ -42,7 +42,7 @@
     state: directory
     owner: root
     group: root
-    mode: 0755
+    mode: '0755'
   with_items: "{{ _stat_directories.results }}"
   when: not item.stat.exists
   tags:
@@ -56,7 +56,7 @@
     dest: "{{ item.dest }}"
     owner: root
     group: root
-    mode: 0644
+    mode: '0644'
   with_items:
     - src: "{{ nfs_server_etc_default_nfs_common_file.lstrip('/') }}.j2"
       dest: "{{ nfs_server_etc_default_nfs_common_file }}"
