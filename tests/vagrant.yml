@@ -1,6 +1,7 @@
 # test file
 ---
-- hosts: all
+- name: converge
+  hosts: all
   remote_user: vagrant
   become: true
   pre_tasks:
@@ -8,8 +9,8 @@
       ansible.builtin.shell: >
         sync && echo 3 > /proc/sys/vm/drop_caches
       when:
-        - ansible_distribution == 'Ubuntu'
-        - ansible_distribution_major_version is version('20', '>=')
+        - ansible_facts['distribution'] == 'Ubuntu'
+        - ansible_facts['distribution_major_version'] is version('20', '>=')
       changed_when: false
   roles:
     - ../../
